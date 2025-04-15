@@ -81,7 +81,7 @@ def create_rinoh_stylesheet(output_path):
     output_path_str = str(output_path).replace("\\", "/")
     
     stylesheet_content = f"""
-from rinoh.font import TypeFace
+from rinoh.font import Typeface
 from rinoh.font.opentype import OpenTypeFont
 from rinoh.style import StyleSheet, StyledMatcher
 from rinoh.stylesheets import sphinx
@@ -97,17 +97,17 @@ try:
     mono_jp_path = r"{mono_jp}"
     
     if sans_jp_path and sans_jp_path.endswith(('.ttc', '.ttf', '.otf')):
-        sans_jp_typeface = TypeFace('Sans JP', OpenTypeFont(sans_jp_path))
+        sans_jp_typeface = Typeface('Sans JP', OpenTypeFont(sans_jp_path))
     else:
         sans_jp_typeface = None
         
     if serif_jp_path and serif_jp_path.endswith(('.ttc', '.ttf', '.otf')):
-        serif_jp_typeface = TypeFace('Serif JP', OpenTypeFont(serif_jp_path))
+        serif_jp_typeface = Typeface('Serif JP', OpenTypeFont(serif_jp_path))
     else:
         serif_jp_typeface = None
         
     if mono_jp_path and mono_jp_path.endswith(('.ttc', '.ttf', '.otf')):
-        mono_jp_typeface = TypeFace('Mono JP', OpenTypeFont(mono_jp_path))
+        mono_jp_typeface = Typeface('Mono JP', OpenTypeFont(mono_jp_path))
     else:
         mono_jp_typeface = None
         

@@ -103,7 +103,7 @@ extensions = [
 
 import os
 from pathlib import Path
-from rinoh.font import TypeFace
+from rinoh.font import Typeface
 from rinoh.font.opentype import OpenTypeFont
 
 """
@@ -114,7 +114,7 @@ from rinoh.font.opentype import OpenTypeFont
 try:
     {font_type}_jp_path = r"{font_path}"
     if os.path.exists({font_type}_jp_path):
-        {font_type}_jp_typeface = TypeFace('{font_type.capitalize()} JP', OpenTypeFont({font_type}_jp_path))
+        {font_type}_jp_typeface = Typeface('{font_type.capitalize()} JP', OpenTypeFont({font_type}_jp_path))
 except Exception as e:
     print(f"Warning: Could not register {font_type} Japanese font: {{e}}")
 """
