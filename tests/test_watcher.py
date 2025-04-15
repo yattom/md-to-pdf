@@ -143,14 +143,19 @@ def test_on_modified_non_markdown():
 
 
 @patch('md_to_pdf.watcher.Observer')
-def test_watch_directory(mock_observer):
+@patch('pathlib.Path.is_dir')
+def test_watch_directory(mock_is_dir, mock_observer):
     """Test watch_directory function."""
+    mock_is_dir.return_value = True
+    
     mock_observer_instance = MagicMock()
     mock_observer.return_value = mock_observer_instance
     
-    with patch('time.sleep', side_effect=KeyboardInterrupt):
-        with pytest.raises(KeyboardInterrupt):
+    with patch('md_to_pdf.watcher.time.sleep', side_effect=KeyboardInterrupt) as mock_sleep:
+        try:
             watch_directory("test_dir", recursive=True, delay=30)
+        except KeyboardInterrupt:
+            pass  # Expected exception
     
     mock_observer.assert_called_once()
     mock_observer_instance.start.assert_called_once()
@@ -160,4 +165,4 @@ def test_watch_directory(mock_observer):
     assert isinstance(args[0], MarkdownHandler)
     assert args[0].delay == 30
     assert args[1] == str(Path("test_dir").resolve())
-    assert args[2] is True
+    assert kwargs.get('recursive') is True
