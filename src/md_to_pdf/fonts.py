@@ -74,6 +74,12 @@ def create_rinoh_stylesheet(output_path):
     """
     fonts = get_system_japanese_fonts()
     
+    sans_jp = fonts.get("sans", "").replace("\\", "/")
+    serif_jp = fonts.get("serif", "").replace("\\", "/")
+    mono_jp = fonts.get("monospace", "").replace("\\", "/")
+    
+    output_path_str = str(output_path).replace("\\", "/")
+    
     stylesheet_content = f"""
 from rinoh.font import TypeFace
 from rinoh.font.opentype import OpenTypeFont
@@ -88,9 +94,9 @@ from rinoh.stylesheets import sphinx_base14
 stylesheet = sphinx_base14.copy()
 
 try:
-    sans_jp = '{fonts.get("sans", "")}'
-    serif_jp = '{fonts.get("serif", "")}'
-    mono_jp = '{fonts.get("monospace", "")}'
+    sans_jp = r"{sans_jp}"
+    serif_jp = r"{serif_jp}"
+    mono_jp = r"{mono_jp}"
     
     if sans_jp:
         stylesheet.variables['sans_typeface'] = sans_jp
@@ -101,7 +107,8 @@ try:
 except Exception as e:
     print(f"Warning: Could not configure Japanese fonts: {{e}}")
 
-stylesheet.write('{output_path}')
+# Export the stylesheet
+stylesheet.write(r"{output_path_str}")
 """
     
     with open(output_path, 'w') as f:

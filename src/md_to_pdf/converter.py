@@ -100,7 +100,8 @@ rinoh_documents = [
 """
 
     if stylesheet_path:
-        config_content += f"""        'stylesheet': '{stylesheet_path}',  # Custom stylesheet with Japanese font support
+        stylesheet_path_str = str(stylesheet_path).replace("\\", "/")
+        config_content += f"""        'stylesheet': r"{stylesheet_path_str}",  # Custom stylesheet with Japanese font support
 """
 
     config_content += """    }
