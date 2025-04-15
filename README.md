@@ -1,6 +1,6 @@
 # md-to-pdf
 
-A tool to automatically convert Markdown files to PDF using Sphinx.
+A tool to automatically convert Markdown files to PDF using Sphinx with rinohtype.
 
 ## Features
 
@@ -10,6 +10,7 @@ A tool to automatically convert Markdown files to PDF using Sphinx.
 - Monitors directories for changes to Markdown files
 - Automatically triggers conversion when files are edited or updated
 - Uses a 1-minute delay that extends if additional changes occur during the delay period
+- Supports Japanese text in generated PDFs
 
 ## Installation
 
@@ -70,7 +71,11 @@ md-to-pdf watch path/to/directory --recursive --delay 30
 
 ## How It Works
 
-md-to-pdf uses Sphinx with the MyST parser to convert Markdown to PDF. When watching a directory, it monitors for changes to Markdown files and triggers conversion after a specified delay period. If additional changes are detected during the delay period, the timer is reset.
+md-to-pdf uses Sphinx with the MyST parser to convert Markdown to PDF using rinohtype. When watching a directory, it monitors for changes to Markdown files and triggers conversion after a specified delay period. If additional changes are detected during the delay period, the timer is reset.
+
+### Japanese Text Support
+
+md-to-pdf includes built-in support for Japanese text in generated PDFs. The tool automatically detects the operating system (Windows, macOS, or Linux) and configures appropriate Japanese fonts for the PDF generation process.
 
 ## Development
 
@@ -95,7 +100,7 @@ pytest
 
 # md-to-pdf (日本語)
 
-Sphinxを使用してMarkdownファイルを自動的にPDFファイルに変換するツールです。
+Sphinxとrinohtype を使用してMarkdownファイルを自動的にPDFファイルに変換するツールです。
 
 ## 特徴
 
@@ -105,6 +110,7 @@ Sphinxを使用してMarkdownファイルを自動的にPDFファイルに変換
 - ディレクトリを監視してMarkdownファイルの変更を検出
 - ファイルが編集または更新されると自動的に変換を実行
 - 1分間の遅延を設け、遅延時間中に変更があれば延長
+- 生成されるPDFで日本語テキストをサポート
 
 ## インストール
 
@@ -166,6 +172,10 @@ md-to-pdf watch path/to/directory --recursive --delay 30
 ## 動作の仕組み
 
 md-to-pdfはSphinxとMyST parserを使用してMarkdownをPDFに変換します。ディレクトリを監視する場合、Markdownファイルの変更を監視し、指定された遅延時間後に変換をトリガーします。遅延時間中に追加の変更が検出された場合、タイマーはリセットされます。
+
+### 日本語テキストのサポート
+
+md-to-pdfは生成されるPDFで日本語テキストを組み込みでサポートしています。このツールは自動的にオペレーティングシステム（Windows、macOS、またはLinux）を検出し、PDF生成プロセスに適切な日本語フォントを設定します。
 
 ## 開発
 

@@ -6,7 +6,10 @@ import os
 import shutil
 import tempfile
 import subprocess
+import platform
 from pathlib import Path
+
+from md_to_pdf.fonts import create_rinoh_stylesheet
 
 
 def convert_file(input_path, output_path=None):
@@ -44,9 +47,13 @@ def convert_file(input_path, output_path=None):
         source_dir.mkdir()
         build_dir.mkdir()
         
+        stylesheet_path = temp_dir_path / 'japanese_style.rts'
+        create_rinoh_stylesheet(stylesheet_path)
+        
+        # Copy the input file to the source directory
         shutil.copy(input_path, source_dir / 'index.md')
         
-        create_sphinx_config(source_dir)
+        create_sphinx_config(source_dir, stylesheet_path)
         
         try:
             subprocess.run(
@@ -68,12 +75,13 @@ def convert_file(input_path, output_path=None):
     return str(output_path)
 
 
-def create_sphinx_config(source_dir):
+def create_sphinx_config(source_dir, stylesheet_path=None):
     """
     Create a Sphinx configuration file (conf.py) in the source directory.
     
     Args:
         source_dir (Path): Path to the Sphinx source directory
+        stylesheet_path (Path, optional): Path to a custom rinohtype stylesheet
     """
     config_content = """
 project = 'md-to-pdf'
@@ -89,8 +97,17 @@ rinoh_documents = [
     {
         'doc': 'index',       # The name of the master document
         'target': 'index',    # The name of the output PDF file
-    }
+"""
+
+    if stylesheet_path:
+        config_content += f"""        'stylesheet': '{stylesheet_path}',  # Custom stylesheet with Japanese font support
+"""
+
+    config_content += """    }
 ]
+
+language = 'en'
+latex_engine = 'xelatex'  # Better Unicode support
 
 myst_enable_extensions = [
     'colon_fence',
