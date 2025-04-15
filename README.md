@@ -17,11 +17,11 @@ A tool to automatically convert Markdown files to PDF using Sphinx.
 
 - Python 3.8 or higher
 - Sphinx
-- LaTeX (for PDF generation)
+- rinohtype (for PDF generation without LaTeX)
 
 ```bash
 # Install dependencies
-pip install sphinx myst-parser
+pip install sphinx myst-parser rinohtype
 ```
 
 ### Installing from Source
@@ -112,11 +112,11 @@ Sphinxを使用してMarkdownファイルを自動的にPDFファイルに変換
 
 - Python 3.8以上
 - Sphinx
-- LaTeX (PDF生成用)
+- rinohtype (LaTeXなしでPDF生成)
 
 ```bash
 # 依存関係のインストール
-pip install sphinx myst-parser
+pip install sphinx myst-parser rinohtype
 ```
 
 ### ソースからのインストール

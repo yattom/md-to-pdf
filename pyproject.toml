@@ -14,6 +14,7 @@ dependencies = [
     "myst-parser>=0.15.0",  # For Markdown support in Sphinx
     "watchdog>=2.1.0",      # For file system monitoring
     "click>=8.0.0",         # For CLI interface
+    "rinohtype>=0.5.5",     # For PDF generation without LaTeX
 ]
 
 [project.optional-dependencies]
