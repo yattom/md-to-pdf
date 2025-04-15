@@ -7,7 +7,7 @@ name = "md-to-pdf"
 version = "0.1.0"
 description = "Automatically convert Markdown files to PDF"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.8,<4.0.0"
 license = {text = "MIT"}
 dependencies = [
     "sphinx>=4.0.0",
