@@ -17,7 +17,6 @@ def check_dependencies():
     """
     dependencies = {
         'sphinx-build': 'Sphinx',
-        'pdflatex': 'LaTeX (texlive-latex-base)',
     }
     
     missing = []
@@ -25,6 +24,11 @@ def check_dependencies():
     for cmd, name in dependencies.items():
         if not shutil.which(cmd):
             missing.append(name)
+    
+    try:
+        import rinoh
+    except ImportError:
+        missing.append('rinohtype')
     
     if missing:
         print(f"Missing dependencies: {', '.join(missing)}")

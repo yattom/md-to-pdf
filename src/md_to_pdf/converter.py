@@ -1,5 +1,5 @@
 """
-Markdown to PDF conversion functionality using Sphinx.
+Markdown to PDF conversion functionality using Sphinx with rinohtype.
 """
 
 import os
@@ -11,7 +11,7 @@ from pathlib import Path
 
 def convert_file(input_path, output_path=None):
     """
-    Convert a Markdown file to PDF using Sphinx.
+    Convert a Markdown file to PDF using Sphinx with rinohtype.
     
     Args:
         input_path (str): Path to the Markdown file to convert
@@ -50,22 +50,13 @@ def convert_file(input_path, output_path=None):
         
         try:
             subprocess.run(
-                ['sphinx-build', '-b', 'latex', str(source_dir), str(build_dir)],
+                ['sphinx-build', '-b', 'rinoh', str(source_dir), str(build_dir)],
                 check=True,
                 capture_output=True,
                 text=True
             )
             
-            latex_dir = build_dir
-            subprocess.run(
-                ['pdflatex', '-interaction=nonstopmode', 'index.tex'],
-                cwd=latex_dir,
-                check=True,
-                capture_output=True,
-                text=True
-            )
-            
-            pdf_path = latex_dir / 'index.pdf'
+            pdf_path = build_dir / 'index.pdf'
             if pdf_path.exists():
                 shutil.copy(pdf_path, output_path)
             else:
@@ -85,18 +76,21 @@ def create_sphinx_config(source_dir):
         source_dir (Path): Path to the Sphinx source directory
     """
     config_content = """
-
 project = 'md-to-pdf'
 copyright = '2025'
 author = 'md-to-pdf'
 
 extensions = [
     'myst_parser',
+    'rinoh.frontend.sphinx',  # Add rinohtype Sphinx extension
 ]
 
-latex_elements = {
-    'papersize': 'a4paper',
-}
+rinoh_documents = [
+    {
+        'doc': 'index',       # The name of the master document
+        'target': 'index',    # The name of the output PDF file
+    }
+]
 
 myst_enable_extensions = [
     'colon_fence',

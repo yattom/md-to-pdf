@@ -19,19 +19,13 @@ def has_dependencies():
     """Check if the required dependencies are available."""
     try:
         import sphinx
-        import subprocess
-        
-        result = subprocess.run(
-            ["pdflatex", "--version"], 
-            capture_output=True, 
-            text=True
-        )
-        return result.returncode == 0
-    except (ImportError, FileNotFoundError):
+        import rinoh
+        return True
+    except ImportError:
         return False
 
 
-@pytest.mark.skipif(not has_dependencies(), reason="Sphinx or LaTeX not installed")
+@pytest.mark.skipif(not has_dependencies(), reason="Sphinx or rinohtype not installed")
 def test_convert_simple_markdown(tmp_path):
     """Test converting a simple Markdown file to PDF."""
     md_file = tmp_path / "test.md"
