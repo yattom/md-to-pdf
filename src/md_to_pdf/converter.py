@@ -83,6 +83,14 @@ def create_sphinx_config(source_dir, stylesheet_path=None):
         source_dir (Path): Path to the Sphinx source directory
         stylesheet_path (Path, optional): Path to a custom rinohtype stylesheet
     """
+    from md_to_pdf.fonts import get_system_japanese_fonts
+    jp_fonts = get_system_japanese_fonts()
+    
+    font_paths = {}
+    for key, path in jp_fonts.items():
+        if path:
+            font_paths[key] = path.replace("\\", "/")
+    
     config_content = """
 project = 'md-to-pdf'
 copyright = '2025'
@@ -93,6 +101,25 @@ extensions = [
     'rinoh.frontend.sphinx',  # Add rinohtype Sphinx extension
 ]
 
+import os
+from pathlib import Path
+from rinoh.font import TypeFace
+from rinoh.font.opentype import OpenTypeFont
+
+"""
+
+    for font_type, font_path in font_paths.items():
+        if font_path and (font_path.endswith('.ttc') or font_path.endswith('.ttf') or font_path.endswith('.otf')):
+            config_content += f"""
+try:
+    {font_type}_jp_path = r"{font_path}"
+    if os.path.exists({font_type}_jp_path):
+        {font_type}_jp_typeface = TypeFace('{font_type.capitalize()} JP', OpenTypeFont({font_type}_jp_path))
+except Exception as e:
+    print(f"Warning: Could not register {font_type} Japanese font: {{e}}")
+"""
+
+    config_content += """
 rinoh_documents = [
     {
         'doc': 'index',       # The name of the master document
@@ -107,8 +134,7 @@ rinoh_documents = [
     config_content += """    }
 ]
 
-language = 'en'
-latex_engine = 'xelatex'  # Better Unicode support
+language = 'ja'
 
 myst_enable_extensions = [
     'colon_fence',
